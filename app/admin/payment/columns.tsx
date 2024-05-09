@@ -79,3 +79,10 @@ export const columns: ColumnDef<Payment>[] = [
     },
   },
 ]
+
+
+function zip<T>(...arrays: T[][]) {
+  return new Array(Math.max(...arrays.map(a => a.length))).fill([]).map((a, i) => {
+    return arrays.map(a => a[i])
+  })
+}
