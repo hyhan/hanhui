@@ -21,19 +21,7 @@ import {
 } from '@/components/ui/select'
 
 // import { Highlight } from '@/components/highlight';
-import {
-  IconSolarBook,
-  IconSolarCalendarMark,
-  IconSolarCodeSquare,
-  IconSolarMinimalisticMagnifer,
-  IconSolarNotesBold,
-  IconSolarRestart,
-  IconSolarSortFromBottomToTopLinear,
-  IconSolarSortFromTopToBottomLinear,
-  IconSolarTextField,
-} from '@/components/icons'
-// import { IllustrationNoContent } from '@/components/illustrations';
-import { PageHeader } from '@/components/page-header'
+// import { PageHeader } from '@/components/page-header'
 
 import {
   DEFAULT_PAGE_INDEX,
@@ -43,16 +31,28 @@ import {
   TAG_TYPES,
   TAG_TYPE_MAP,
 } from '@/constants'
-import { type GetTagsDTO, type Tag, useGetTags } from '@/features/tag'
+// import { type GetTagsDTO, type Tag, useGetTags } from '@/features/tag'
+import { GetTagsDTO, Tag } from './types'
+import { useGetTags } from './api/get-tags'
 import { cn, toSlashDateString } from '@/lib/utils'
 
+// import {
+//   AdminContentLayout,
+//   CreateTagButton,
+//   DeleteTagButton,
+//   EditTagButton,
+// } from '../../components'
 import {
-  AdminContentLayout,
-  CreateTagButton,
-  DeleteTagButton,
-  EditTagButton,
-} from '../../components'
-import { NotebookTabsIcon, RssIcon, SquareDashedBottomCodeIcon } from 'lucide-react'
+  ArrowDown10,
+  ArrowUp01,
+  RefreshCcwIcon,
+  SearchIcon,
+} from 'lucide-react'
+import { CreateTagButton } from './components/create-tag-button'
+import { EditTagButton } from './components/edit-tag-button'
+import { IllustrationNoContent } from '@/components/illustrations'
+import { AdminContentLayout } from '@/features/layout/admin-content-layout'
+import { DeleteTagButton } from './components/delete-tag-button'
 
 export const AdminTagListPage = () => {
   const [params, updateParams] = useSetState<GetTagsDTO>({
@@ -95,12 +95,7 @@ export const AdminTagListPage = () => {
     },
     {
       accessorKey: 'name',
-      header: () => (
-        <div className="flex space-x-1 items-center">
-          <IconSolarTextField className="text-sm" />
-          <span>名称</span>
-        </div>
-      ),
+      header: '名称',
       // cell: ({ row }) => {
       //   return (
       //     <Highlight
@@ -112,12 +107,7 @@ export const AdminTagListPage = () => {
     },
     {
       accessorKey: 'type',
-      header: () => (
-        <div className="flex space-x-1 items-center">
-          <IconSolarTextField className="text-sm" />
-          <span>类型</span>
-        </div>
-      ),
+      header: '类型',
       cell({ row }) {
         const originalType = row.original.type
         const typeLabel = TAG_TYPE_MAP[originalType]
@@ -125,16 +115,8 @@ export const AdminTagListPage = () => {
           return PLACEHODER_TEXT
         }
 
-        const iconMap = {
-          [TagTypeEnum.ALL]: '',
-          [TagTypeEnum.BLOG]: <RssIcon className="text-sm" />,
-          [TagTypeEnum.NOTE]: <NotebookTabsIcon className="text-sm" />,
-          [TagTypeEnum.SNIPPET]: <SquareDashedBottomCodeIcon className="text-sm" />,
-        }
-
         return (
           <Badge>
-            {iconMap[originalType]}
             {typeLabel}
           </Badge>
         )
@@ -142,36 +124,21 @@ export const AdminTagListPage = () => {
     },
     {
       accessorKey: '_count.blogs',
-      header: () => (
-        <div className="flex space-x-1 items-center">
-          <RssIcon className="text-sm" />
-          <span>博客</span>
-        </div>
-      ),
+      header: '博客',
       cell({ row }) {
         return row.original._count.blogs || PLACEHODER_TEXT
       },
     },
     {
       accessorKey: '_count.snippets',
-      header: () => (
-        <div className="flex space-x-1 items-center">
-          <IconSolarCodeSquare className="text-sm" />
-          <span>片段</span>
-        </div>
-      ),
+      header: '片段',
       cell({ row }) {
         return row.original._count.snippets || PLACEHODER_TEXT
       },
     },
     {
       accessorKey: '_count.notes',
-      header: () => (
-        <div className="flex space-x-1 items-center">
-          <NotebookTabsIcon className="text-sm" />
-          <span>笔记</span>
-        </div>
-      ),
+      header: '笔记',
       cell({ row }) {
         return row.original._count.snippets || PLACEHODER_TEXT
       },
@@ -185,14 +152,9 @@ export const AdminTagListPage = () => {
             handleOrderChange('createdAt')
           }}
         >
-          <IconSolarCalendarMark className="text-sm" />
           <span className="mx-1">创建时间</span>
-          {params.order === 'asc' && params.orderBy == 'createdAt' && (
-            <IconSolarSortFromBottomToTopLinear />
-          )}
-          {params.order === 'desc' && params.orderBy == 'createdAt' && (
-            <IconSolarSortFromTopToBottomLinear />
-          )}
+          {params.order === 'asc' && params.orderBy == 'createdAt' && <ArrowUp01 size={20} />}
+          {params.order === 'desc' && params.orderBy == 'createdAt' && <ArrowDown10 size={20} />}
         </Button>
       ),
       cell({ row }) {
@@ -208,14 +170,9 @@ export const AdminTagListPage = () => {
             handleOrderChange('updatedAt')
           }}
         >
-          <IconSolarCalendarMark className="text-sm" />
           <span className="mx-1">更新时间</span>
-          {params.order === 'asc' && params.orderBy == 'updatedAt' && (
-            <IconSolarSortFromBottomToTopLinear />
-          )}
-          {params.order === 'desc' && params.orderBy == 'updatedAt' && (
-            <IconSolarSortFromTopToBottomLinear />
-          )}
+          {params.order === 'asc' && params.orderBy == 'updatedAt' && <ArrowUp01 size={20} />}
+          {params.order === 'desc' && params.orderBy == 'updatedAt' && <ArrowDown10 size={20} />}
         </Button>
       ),
       cell({ row }) {
@@ -237,8 +194,9 @@ export const AdminTagListPage = () => {
   ]
 
   return (
-    <div>
-      <div className="grid gap-4 grid-cols-4 px-2 py-4">
+    <AdminContentLayout>
+      <CreateTagButton refreshAsync={getTagsQuery.refreshAsync} />
+      <div className="grid gap-4 grid-cols-4 py-4 px-2">
         <Input
           placeholder="请输入名称"
           value={inputParams.name}
@@ -278,11 +236,11 @@ export const AdminTagListPage = () => {
         </Select>
         <div className="flex items-center space-x-4">
           <Button onClick={handleSearch}>
-            <IconSolarMinimalisticMagnifer className="mr-2" />
+            <SearchIcon className="mr-2" size={16} />
             搜索
           </Button>
           <Button onClick={handleReset}>
-            <IconSolarRestart className="mr-2" />
+            <RefreshCcwIcon className="mr-2" size={16}/>
             重置
           </Button>
         </div>
@@ -296,13 +254,13 @@ export const AdminTagListPage = () => {
         updateParams={updateParams}
         noResult={
           <div className="grid place-content-center gap-4 py-16">
-            {/* <IllustrationNoContent /> */}
+            <IllustrationNoContent />
             <p>暂无内容</p>
-            {/* <CreateTagButton refreshAsync={getTagsQuery.refreshAsync} /> */}
+            <CreateTagButton refreshAsync={getTagsQuery.refreshAsync} />
           </div>
         }
       />
-    </div>
+    </AdminContentLayout>
   )
 
   function handleSearch() {
