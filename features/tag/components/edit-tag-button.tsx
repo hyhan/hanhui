@@ -1,18 +1,18 @@
-'use client';
+'use client'
 
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import React from 'react'
+import { useForm } from 'react-hook-form'
 
-import { zodResolver } from '@hookform/resolvers/zod';
+import { zodResolver } from '@hookform/resolvers/zod'
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from '@/components/ui/dialog'
 import {
   Form,
   FormControl,
@@ -20,65 +20,55 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Skeleton } from '@/components/ui/skeleton';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from '@/components/ui/select'
+import { Skeleton } from '@/components/ui/skeleton'
 
 import { TAG_TYPES, TAG_TYPE_MAP } from '@/constants'
 import { useGetTag, useUpdateTag } from '../api'
 import { UpdateTagDTO, updateTagSchema } from './../types'
-import { cn, toSlug } from '@/lib/utils';
-import { EditIcon, LoaderCircleIcon } from 'lucide-react';
+import { cn, toSlug } from '@/lib/utils'
+import { EditIcon, LoaderCircleIcon } from 'lucide-react'
 
 type EditTagButtonProps = {
-  id: string;
-  refreshAsync: () => Promise<unknown>;
-};
+  id: string
+  refreshAsync: () => Promise<unknown>
+}
 
 export const EditTagButton = ({ id, refreshAsync }: EditTagButtonProps) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
   const form = useForm<UpdateTagDTO>({
     resolver: zodResolver(updateTagSchema),
-  });
+  })
 
-  const { data, loading } = useGetTag(id, open);
+  const { data, loading } = useGetTag(id, open)
 
-  const updateTagQuery = useUpdateTag();
+  const updateTagQuery = useUpdateTag()
 
   React.useEffect(() => {
     if (open && data?.tag) {
-      const { tag } = data;
-      form.setValue('name', tag.name);
-      form.setValue('slug', tag.slug);
-      form.setValue('type', tag.type);
-      form.setValue('id', tag.id);
-      form.clearErrors();
+      const { tag } = data
+      form.setValue('name', tag.name)
+      form.setValue('slug', tag.slug)
+      form.setValue('type', tag.type)
+      form.setValue('id', tag.id)
+      form.clearErrors()
     }
-  }, [data, form, open]);
+  }, [data, form, open])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button size={'icon'} variant="ghost" onClick={() => setOpen(true)}>
-              <EditIcon className="text-base" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>编辑</TooltipContent>
-        </Tooltip>
+        <Button size={'icon'} variant="ghost" onClick={() => setOpen(true)}>
+          <EditIcon size={20} />
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -114,11 +104,7 @@ export const EditTagButton = ({ id, refreshAsync }: EditTagButtonProps) => {
                       {loading ? (
                         <Skeleton className="w-full rounded-lg h-10" />
                       ) : (
-                        <Input
-                          className="flex-1"
-                          placeholder="请输入标签名称"
-                          {...field}
-                        />
+                        <Input className="flex-1" placeholder="请输入标签名称" {...field} />
                       )}
                     </FormControl>
                     <FormMessage />
@@ -193,19 +179,19 @@ export const EditTagButton = ({ id, refreshAsync }: EditTagButtonProps) => {
         </Form>
       </DialogContent>
     </Dialog>
-  );
+  )
 
   async function handleSubmit(values: UpdateTagDTO) {
-    await updateTagQuery.runAsync(values);
-    setOpen(false);
-    await refreshAsync();
+    await updateTagQuery.runAsync(values)
+    setOpen(false)
+    await refreshAsync()
   }
 
   function handleFormatSlug() {
-    const tmp = form.getValues().slug?.trim();
+    const tmp = form.getValues().slug?.trim()
     if (tmp) {
-      const formatted = toSlug(tmp);
-      form.setValue('slug', formatted);
+      const formatted = toSlug(tmp)
+      form.setValue('slug', formatted)
     }
   }
-};
+}

@@ -27,13 +27,13 @@ import {
   DEFAULT_PAGE_INDEX,
   DEFAULT_PAGE_SIZE,
   PATHS,
-  PLACEHODER_TEXT,
+  PLACEHOLDER_TEXT,
   TAG_TYPES,
   TAG_TYPE_MAP,
 } from '@/constants'
 // import { type GetTagsDTO, type Tag, useGetTags } from '@/features/tag'
 import { GetTagsDTO, Tag } from './types'
-import { useGetTags } from './api/get-tags'
+import { useGetTags } from './api'
 import { cn, toSlashDateString } from '@/lib/utils'
 
 // import {
@@ -42,12 +42,7 @@ import { cn, toSlashDateString } from '@/lib/utils'
 //   DeleteTagButton,
 //   EditTagButton,
 // } from '../../components'
-import {
-  ArrowDown10,
-  ArrowUp01,
-  RefreshCcwIcon,
-  SearchIcon,
-} from 'lucide-react'
+import { ArrowDown10, ArrowUp01, RefreshCcwIcon, SearchIcon } from 'lucide-react'
 import { CreateTagButton } from './components/create-tag-button'
 import { EditTagButton } from './components/edit-tag-button'
 import { IllustrationNoContent } from '@/components/illustrations'
@@ -112,35 +107,31 @@ export const AdminTagListPage = () => {
         const originalType = row.original.type
         const typeLabel = TAG_TYPE_MAP[originalType]
         if (!typeLabel) {
-          return PLACEHODER_TEXT
+          return PLACEHOLDER_TEXT
         }
 
-        return (
-          <Badge>
-            {typeLabel}
-          </Badge>
-        )
+        return <Badge>{typeLabel}</Badge>
       },
     },
     {
       accessorKey: '_count.blogs',
       header: '博客',
       cell({ row }) {
-        return row.original._count.blogs || PLACEHODER_TEXT
+        return row.original._count.blogs || PLACEHOLDER_TEXT
       },
     },
     {
       accessorKey: '_count.snippets',
       header: '片段',
       cell({ row }) {
-        return row.original._count.snippets || PLACEHODER_TEXT
+        return row.original._count.snippets || PLACEHOLDER_TEXT
       },
     },
     {
       accessorKey: '_count.notes',
       header: '笔记',
       cell({ row }) {
-        return row.original._count.snippets || PLACEHODER_TEXT
+        return row.original._count.snippets || PLACEHOLDER_TEXT
       },
     },
     {
@@ -240,7 +231,7 @@ export const AdminTagListPage = () => {
             搜索
           </Button>
           <Button onClick={handleReset}>
-            <RefreshCcwIcon className="mr-2" size={16}/>
+            <RefreshCcwIcon className="mr-2" size={16} />
             重置
           </Button>
         </div>

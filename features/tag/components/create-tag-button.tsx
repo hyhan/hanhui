@@ -1,19 +1,19 @@
-'use client';
+'use client'
 
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import React from 'react'
+import { useForm } from 'react-hook-form'
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { TagTypeEnum } from '@prisma/client';
+import { zodResolver } from '@hookform/resolvers/zod'
+import { TagTypeEnum } from '@prisma/client'
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from '@/components/ui/dialog'
 import {
   Form,
   FormControl,
@@ -21,32 +21,32 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from '@/components/ui/select'
 
-import { TAG_TYPES, TAG_TYPE_MAP } from '@/constants';
+import { TAG_TYPES, TAG_TYPE_MAP } from '@/constants'
 // import {
 //   type CreateTagDTO,
 //   createTagSchema,
 //   useCreateTag,
 // } from '@/features/tag';
-import { useCreateTag } from './../api';
+import { useCreateTag } from '../api'
 import { CreateTagDTO, createTagSchema } from './../types'
-import { cn, toSlug } from '@/lib/utils';
-import { PlusIcon, RefreshCcwIcon } from 'lucide-react';
+import { cn, toSlug } from '@/lib/utils'
+import { PlusIcon, RefreshCcwIcon } from 'lucide-react'
 
 type CreateTagButtonProps = {
-  refreshAsync: () => Promise<unknown>;
-};
+  refreshAsync: () => Promise<unknown>
+}
 export const CreateTagButton = ({ refreshAsync }: CreateTagButtonProps) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
   const form = useForm<CreateTagDTO>({
     resolver: zodResolver(createTagSchema),
     defaultValues: {
@@ -54,16 +54,16 @@ export const CreateTagButton = ({ refreshAsync }: CreateTagButtonProps) => {
       slug: '',
       type: TagTypeEnum.ALL,
     },
-  });
+  })
 
-  const createTagQuery = useCreateTag();
+  const createTagQuery = useCreateTag()
 
   React.useEffect(() => {
     if (open) {
-      form.reset();
-      form.clearErrors();
+      form.reset()
+      form.clearErrors()
     }
-  }, [form, open]);
+  }, [form, open])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -157,19 +157,19 @@ export const CreateTagButton = ({ refreshAsync }: CreateTagButtonProps) => {
         </Form>
       </DialogContent>
     </Dialog>
-  );
+  )
 
   async function handleSubmit(values: CreateTagDTO) {
-    await createTagQuery.runAsync(values);
-    setOpen(false);
-    await refreshAsync();
+    await createTagQuery.runAsync(values)
+    setOpen(false)
+    await refreshAsync()
   }
 
   function handleFormatSlug() {
-    const tmp = form.getValues().slug?.trim();
+    const tmp = form.getValues().slug?.trim()
     if (tmp) {
-      const formatted = toSlug(tmp);
-      form.setValue('slug', formatted);
+      const formatted = toSlug(tmp)
+      form.setValue('slug', formatted)
     }
   }
-};
+}
