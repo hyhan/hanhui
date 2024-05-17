@@ -1,7 +1,7 @@
-'use client';
+'use client'
 
-import React from 'react';
-import { Sidenav } from './components/Sidenav';
+import React from 'react'
+import { Sidenav } from './components/sidenav'
 
 // import { SessionProvider } from 'next-auth/react';
 
@@ -17,5 +17,5 @@ export const AdminLayout = ({ children }: React.PropsWithChildren) => {
         </section>
       </div>
     // {/* </SessionProvider> */}
-  );
-};
+  )
+}

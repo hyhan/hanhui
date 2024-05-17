@@ -31,23 +31,14 @@ import {
   TAG_TYPES,
   TAG_TYPE_MAP,
 } from '@/constants'
-// import { type GetTagsDTO, type Tag, useGetTags } from '@/features/tag'
 import { GetTagsDTO, Tag } from './types'
 import { useGetTags } from './api'
 import { cn, toSlashDateString } from '@/lib/utils'
 
-// import {
-//   AdminContentLayout,
-//   CreateTagButton,
-//   DeleteTagButton,
-//   EditTagButton,
-// } from '../../components'
 import { ArrowDown10, ArrowUp01, RefreshCcwIcon, SearchIcon } from 'lucide-react'
-import { CreateTagButton } from './components/create-tag-button'
-import { EditTagButton } from './components/edit-tag-button'
+import { CreateTagButton, DeleteTagButton, EditTagButton } from './components'
 import { IllustrationNoContent } from '@/components/illustrations'
 import { AdminContentLayout } from '@/features/layout/admin-content-layout'
-import { DeleteTagButton } from './components/delete-tag-button'
 
 export const AdminTagListPage = () => {
   const [params, updateParams] = useSetState<GetTagsDTO>({

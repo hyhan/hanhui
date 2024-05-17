@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 export function IllustrationSuccessDark(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -103,5 +103,5 @@ export function IllustrationSuccessDark(props: React.SVGProps<SVGSVGElement>) {
         fill="#1C1F23"
       />
     </svg>
-  );
+  )
 }

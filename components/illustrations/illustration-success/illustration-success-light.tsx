@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 export function IllustrationSuccessLight(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -49,13 +49,7 @@ export function IllustrationSuccessLight(props: React.SVGProps<SVGSVGElement>) {
         d="M76.5793 62.681C81.2488 63.2281 86.6985 62.0462 89.6647 59.513C84.2928 60.4772 73.7123 58.6865 67.7639 57.1714L76.5793 62.681Z"
         fill="#515151"
       />
-      <ellipse
-        cx={44.8989}
-        cy={153.728}
-        rx={35.124}
-        ry={35.1239}
-        fill="hsl(var(--secondary))"
-      />
+      <ellipse cx={44.8989} cy={153.728} rx={35.124} ry={35.1239} fill="hsl(var(--secondary))" />
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -97,5 +91,5 @@ export function IllustrationSuccessLight(props: React.SVGProps<SVGSVGElement>) {
         fill="#515151"
       />
     </svg>
-  );
+  )
 }
