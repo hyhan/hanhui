@@ -2,8 +2,6 @@
 
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -14,7 +12,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Loader2Icon, TrashIcon } from 'lucide-react'
 import React from 'react'
-import { useDeleteTag } from '../api'
+import { useDeleteSnippet } from '../api'
 
 type DeleteTagButtonProps = {
   id: string
@@ -23,10 +21,10 @@ type DeleteTagButtonProps = {
 
 export const DeleteTagButton = ({ id, refreshAsync }: DeleteTagButtonProps) => {
   const [open, setOpen] = React.useState(false)
-  const deleteTagQuery = useDeleteTag()
+  const deleteSnippetQuery = useDeleteSnippet()
 
   const handleDelete = async () => {
-    await deleteTagQuery.runAsync(id)
+    await deleteSnippetQuery.runAsync(id)
     setOpen(false)
     await refreshAsync()
   }
@@ -46,15 +44,15 @@ export const DeleteTagButton = ({ id, refreshAsync }: DeleteTagButtonProps) => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>删除标签</AlertDialogTitle>
-          <AlertDialogDescription>确定要删除该标签吗？</AlertDialogDescription>
+          <AlertDialogTitle>删除片段</AlertDialogTitle>
+          <AlertDialogDescription>确定要删除该片段吗？</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)} disabled={deleteTagQuery.loading}>
+          <Button variant="outline" onClick={() => setOpen(false)} disabled={deleteSnippetQuery.loading}>
             取消
           </Button>
-          <Button onClick={handleDelete} disabled={deleteTagQuery.loading}>
-            {deleteTagQuery.loading && <Loader2Icon className="mr-2 text-base animate-spin" />}
+          <Button onClick={handleDelete} disabled={deleteSnippetQuery.loading}>
+            {deleteSnippetQuery.loading && <Loader2Icon className="mr-2 text-base animate-spin" />}
             确定
           </Button>
         </AlertDialogFooter>

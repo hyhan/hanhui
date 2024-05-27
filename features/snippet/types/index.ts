@@ -1,5 +1,6 @@
 import { PUBLISHED_ENUM, REGEX } from '@/constants'
 import { z } from 'zod'
+import { getSnippets } from '../actions'
 
 export const createSnippetSchema = z.object({
   title: z.string().min(1, { message: '长度不能小于1' }),
@@ -28,10 +29,12 @@ export const getSnippetSchema = z.object({
   tags: z.string().array().optional(),
   pageIndex: z.number(),
   pageSize: z.number(),
-  orderBy: z.enum(['createdAt', 'updatedAt']),
-  order: z.enum(['asc', 'desc']),
+  orderBy: z.enum(['createdAt', 'updatedAt']).optional(),
+  order: z.enum(['asc', 'desc']).optional(),
 })
 
 export type CreateSnippetDTO = z.infer<typeof createSnippetSchema>
 export type UpdateSnippetDTO = z.infer<typeof updateSnippetSchema>
 export type GetSnippetDTO = z.infer<typeof getSnippetSchema>
+
+export type Snippet = Awaited<ReturnType<typeof getSnippets>>['snippets'][number]

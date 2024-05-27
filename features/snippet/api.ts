@@ -1,5 +1,5 @@
 import { useRequest } from 'ahooks'
-import { createSnippet, getSnippetByID, getSnippets, toggleSnippetPublished, updateSnippet } from './actions'
+import { createSnippet, deleteSnippetById, getSnippetByID, getSnippets, toggleSnippetPublished, updateSnippet } from './actions'
 import { CreateSnippetDTO, GetSnippetDTO, UpdateSnippetDTO } from './types'
 import { showErrorToast, showSuccessToast } from '@/components/ui/toast'
 
@@ -17,8 +17,8 @@ export const useGetSnippets = (params: GetSnippetDTO) => {
   })
 }
 
-export const useCreateSnippet = (params: CreateSnippetDTO) => {
-  return useRequest(() => createSnippet(params), {
+export const useCreateSnippet = () => {
+  return useRequest(createSnippet, {
     manual: true,
     loadingDelay: 300,
     onSuccess() {
@@ -30,8 +30,8 @@ export const useCreateSnippet = (params: CreateSnippetDTO) => {
   })
 }
 
-export const useUpdateSnippet = (params: UpdateSnippetDTO) => {
-  return useRequest(() => updateSnippet(params), {
+export const useUpdateSnippet = () => {
+  return useRequest(updateSnippet, {
     manual: true,
     loadingDelay: 300,
     onSuccess() {
@@ -51,6 +51,19 @@ export const useUpdateSnippetPublished = () => {
     },
     onError(error) {
       showErrorToast(`Snippet update failed: ${error.message}`)
+    }
+  })
+}
+
+export const useDeleteSnippet = () => {
+  return useRequest(deleteSnippetById, {
+    manual: true,
+    loadingDelay: 300,
+    onSuccess() {
+      showSuccessToast('Snippet deleted')
+    },
+    onError(error) {
+      showErrorToast(`Snippet deletion failed: ${error.message}`)
     }
   })
 }
