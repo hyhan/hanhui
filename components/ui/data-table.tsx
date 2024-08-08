@@ -1,14 +1,14 @@
-'use client';
+'use client'
 
-import React from 'react';
+import React from 'react'
 
 import {
   type ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
-} from '@tanstack/react-table';
-import { type SetState } from 'ahooks/lib/useSetState';
+} from '@tanstack/react-table'
+import { type SetState } from 'ahooks/lib/useSetState'
 
 import {
   Table,
@@ -17,11 +17,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from '@/components/ui/table'
 
-import { Skeleton } from './skeleton';
+import { Skeleton } from './skeleton'
 
-import { Pagination, PaginationInfo } from '../pagination';
+import { Pagination, PaginationInfo } from '../pagination'
 
 type PaginationConfig = {
   pageIndex: number;
@@ -47,8 +47,8 @@ export function DataTable<TData, TValue>({
   noResult,
   total = 0,
 }: DataTableProps<TData, TValue>) {
-  const [rowSelection, setRowSelection] = React.useState({});
-  const pageCount = Math.ceil(total / params.pageSize);
+  const [rowSelection, setRowSelection] = React.useState({})
+  const pageCount = Math.ceil(total / params.pageSize)
 
   const table = useReactTable({
     data,
@@ -59,7 +59,7 @@ export function DataTable<TData, TValue>({
     state: {
       rowSelection,
     },
-  });
+  })
 
   return (
     <div className="rounded-lg border">
@@ -77,7 +77,7 @@ export function DataTable<TData, TValue>({
                           header.getContext(),
                         )}
                   </TableHead>
-                );
+                )
               })}
             </TableRow>
           ))}
@@ -98,7 +98,7 @@ export function DataTable<TData, TValue>({
         />
       </div>
     </div>
-  );
+  )
 
   function renderContent() {
     if (loading) {
@@ -110,11 +110,11 @@ export function DataTable<TData, TValue>({
                 <TableCell key={index}>
                   <Skeleton className="w-full h-4 rounded-[4px]" />
                 </TableCell>
-              );
+              )
             })}
           </TableRow>
-        );
-      });
+        )
+      })
     }
 
     if (!table.getRowModel().rows?.length && !loading) {
@@ -124,7 +124,7 @@ export function DataTable<TData, TValue>({
             {noResult}
           </TableCell>
         </TableRow>
-      );
+      )
     }
 
     return table.getRowModel().rows.map((row) => (
@@ -135,7 +135,7 @@ export function DataTable<TData, TValue>({
           </TableCell>
         ))}
       </TableRow>
-    ));
+    ))
   }
 
   function renderInfo() {
@@ -149,12 +149,12 @@ export function DataTable<TData, TValue>({
           </span>
           行数据
         </p>
-      );
+      )
     }
 
     return (
       // 当前数据和总条数
       pageCount > 1 && <PaginationInfo total={total} params={{ ...params }} />
-    );
+    )
   }
 }

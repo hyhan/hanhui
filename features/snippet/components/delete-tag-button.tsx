@@ -10,7 +10,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import { Loader2Icon, TrashIcon } from 'lucide-react'
+import { Loader2, Trash } from 'lucide-react'
 import React from 'react'
 import { useDeleteSnippet } from '../api'
 
@@ -39,7 +39,7 @@ export const DeleteTagButton = ({ id, refreshAsync }: DeleteTagButtonProps) => {
             setOpen(true)
           }}
         >
-          <TrashIcon size={20} />
+          <Trash size={20} />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -52,7 +52,7 @@ export const DeleteTagButton = ({ id, refreshAsync }: DeleteTagButtonProps) => {
             取消
           </Button>
           <Button onClick={handleDelete} disabled={deleteSnippetQuery.loading}>
-            {deleteSnippetQuery.loading && <Loader2Icon className="mr-2 text-base animate-spin" />}
+            {deleteSnippetQuery.loading && <Loader2 className="mr-2 text-base animate-spin" />}
             确定
           </Button>
         </AlertDialogFooter>
